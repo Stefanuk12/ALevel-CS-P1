@@ -211,6 +211,7 @@ class Puzzle():
             raise IndexError()
 
     # Checks if there is a match with any pattern
+    # The pattern is checked in a spiral pattern starting at the top left.
     # More analysis is needed to figure out how this works, how the pattern strings are generated, etc.
     # BUG: Returns true, even if there is an invalid match. For example, form a P shape then form a Q shape - this counts
     def CheckforMatchWithPattern(self, Row, Column):
@@ -233,6 +234,8 @@ class Puzzle():
                     for P in self.__AllowedPatterns:
                         CurrentSymbol = self.__GetCell(Row, Column).GetSymbol()
                         if P.MatchesPattern(PatternString, CurrentSymbol):
+                            # Disallow those symbols to not be added again
+                            # Put allows others so you can have overlapping?
                             self.__GetCell(StartRow, StartColumn).AddToNotAllowedSymbols(CurrentSymbol)
                             self.__GetCell(StartRow, StartColumn + 1).AddToNotAllowedSymbols(CurrentSymbol)
                             self.__GetCell(StartRow, StartColumn + 2).AddToNotAllowedSymbols(CurrentSymbol)
